@@ -16,4 +16,4 @@ crate-type = ["dylib"] # Creates dynamic lib
 cirru_edn = "0.2.21"
 cirru_parser = "0.1.24"
 json = "0.12.4"
-hex = "0.3.1"
+hex = "0.4.3"
