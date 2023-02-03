@@ -1,15 +1,16 @@
-## Workflow
+## Calcit JSON
 
-> Rust library for Calcit runtime.
-
-API 设计: https://github.com/calcit-lang/calcit_runner.rs/discussions/116 .
+> based on [json](https://docs.rs/json/latest/json/).
 
 ### Usages
 
 APIs:
 
 ```cirru
-lib.core/path-exists? a
+json.core/parse "|{\"a\": [\"b\", 2]}"
+
+json.core/stringify $ {} (:a 1)
+json.core/stringify ({} (:a 1)) true
 ```
 
 Install to `~/.config/calcit/modules/`, compile and provide `*.{dylib,so}` file with `./build.sh`.

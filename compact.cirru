@@ -1,35 +1,37 @@
 
-{} (:package |lib)
-  :configs $ {} (:init-fn |lib.test/main!) (:reload-fn |lib.test/reload!)
+{} (:package |json)
+  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.1)
     :modules $ []
-    :version |0.0.1
+  :entries $ {}
   :files $ {}
-    |lib.core $ {}
-      :ns $ quote
-        ns lib.core $ :require
-          lib.$meta :refer $ calcit-dirname
-          lib.util :refer $ get-dylib-path
+    |json.core $ {}
       :defs $ {}
-        |path-exists? $ quote
-          defn path-exists? (name)
-            &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"path_exists" name
-    |lib.test $ {}
+        |parse $ quote
+          defn parse (content)
+            &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"json_parse" content
+        |stringify $ quote
+          defn stringify (data ? pretty?)
+            &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"json_stringify" data pretty?
       :ns $ quote
-        ns lib.test $ :require
-          lib.core :refer $ path-exists?
-          lib.$meta :refer $ calcit-dirname calcit-filename
+        ns json.core $ :require
+          json.$meta :refer $ calcit-dirname
+          json.util :refer $ get-dylib-path
+    |json.test $ {}
       :defs $ {}
-        |run-tests $ quote
-          defn run-tests () (println "\"%%%% test for lib") (println calcit-filename calcit-dirname)
-            println (path-exists? "\"README.md") (path-exists? "\"build.js")
         |main! $ quote
           defn main! () $ run-tests
         |reload! $ quote
           defn reload! $
-    |lib.util $ {}
+        |run-tests $ quote
+          defn run-tests () (println "\"%%%% test for json") (println calcit-filename calcit-dirname)
+            println "\"Parsing:" $ parse "\"{\"a\":[\"b\",1]}"
+            println "\"Stringify:" $ stringify
+              {} $ :a 1
       :ns $ quote
-        ns lib.util $ :require
-          lib.$meta :refer $ calcit-dirname calcit-filename
+        ns json.test $ :require
+          json.core :refer $ parse stringify
+          json.$meta :refer $ calcit-dirname calcit-filename
+    |json.util $ {}
       :defs $ {}
         |get-dylib-ext $ quote
           defmacro get-dylib-ext () $ case-default (&get-os) "\".so" (:macos "\".dylib") (:windows "\".dll")
@@ -39,3 +41,6 @@
         |or-current-path $ quote
           defn or-current-path (p)
             if (blank? p) "\"." p
+      :ns $ quote
+        ns json.util $ :require
+          json.$meta :refer $ calcit-dirname calcit-filename

@@ -8,6 +8,8 @@ version = "0.0.1"
 dependencies = [
  "cirru_edn",
  "cirru_parser",
+ "hex 0.3.2",
+ "json",
 ]
 
 [[package]]
@@ -17,7 +19,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "63c8eadc7d7e440b6e2dce8b6ef16e688dc1a36dfcac8a627a1e769672664955"
 dependencies = [
  "cirru_parser",
- "hex",
+ "hex 0.4.3",
  "lazy_static",
 ]
 
@@ -29,9 +31,21 @@ checksum = "0c942c2dafb7e7cab267b66e6ccbb0b4ef11a471b83c90a9e072cdd02d2081aa"
 
 [[package]]
 name = "hex"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "805026a5d0141ffc30abb3be3173848ad46a1b1664fe632428479619a3644d77"
+
+[[package]]
+name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+
+[[package]]
+name = "json"
+version = "0.12.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "078e285eafdfb6c4b434e0d31e8cfcb5115b651496faca5749b88fafd4f23bfd"
 
 [[package]]
 name = "lazy_static"
