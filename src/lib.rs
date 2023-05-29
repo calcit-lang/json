@@ -90,7 +90,7 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
       for (k, v) in map {
         if let Edn::Str(k) = k {
           obj.insert(k, edn_to_json(v)?);
-        } else if let Edn::Keyword(k) = k {
+        } else if let Edn::Tag(k) = k {
           obj.insert(&k.to_str(), edn_to_json(v)?);
         } else {
           return Err(format!("json-parse expected string, got {:?}", k));
@@ -99,7 +99,7 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
       Ok(JsonValue::Object(obj))
     }
     Edn::Symbol(s) => Ok(JsonValue::String(s.to_string())),
-    Edn::Keyword(s) => Ok(JsonValue::String(s.to_string())),
+    Edn::Tag(s) => Ok(JsonValue::String(s.to_string())),
     Edn::Set(xs) => {
       let mut arr = Vec::new();
       for x in xs {
@@ -107,8 +107,11 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
       }
       Ok(JsonValue::Array(arr))
     }
-    Edn::Tuple(pair) => {
-      let arr = vec![edn_to_json(&pair.0.to_owned())?, edn_to_json(&pair.1.to_owned())?];
+    Edn::Tuple(tag, extra) => {
+      let mut arr = vec![edn_to_json(&tag.to_owned())?];
+      for item in extra {
+        arr.push(edn_to_json(&item.to_owned())?);
+      }
       Ok(JsonValue::Array(arr))
     }
     Edn::Quote(x) => cirru_to_json(x),
