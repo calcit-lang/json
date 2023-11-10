@@ -1,6 +1,6 @@
 
 {} (:package |json)
-  :configs $ {} (:init-fn |json.test/main!) (:port 6001) (:reload-fn |json.test/reload!) (:version |0.0.3)
+  :configs $ {} (:init-fn |json.test/main!) (:port 6001) (:reload-fn |json.test/reload!) (:version |0.0.4)
     :modules $ []
   :entries $ {}
   :files $ {}

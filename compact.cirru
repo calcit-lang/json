@@ -1,10 +1,10 @@
 
 {} (:package |json)
-  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.3)
+  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.4)
     :modules $ []
   :entries $ {}
   :files $ {}
-    |json.core $ {}
+    |json.core $ %{} :FileEntry
       :defs $ {}
         |parse $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -19,7 +19,7 @@
           ns json.core $ :require
             json.$meta :refer $ calcit-dirname
             json.util :refer $ get-dylib-path
-    |json.test $ {}
+    |json.test $ %{} :FileEntry
       :defs $ {}
         |main! $ %{} :CodeEntry (:doc |)
           :code $ quote
@@ -38,7 +38,7 @@
           ns json.test $ :require
             json.core :refer $ parse stringify
             json.$meta :refer $ calcit-dirname calcit-filename
-    |json.util $ {}
+    |json.util $ %{} :FileEntry
       :defs $ {}
         |get-dylib-ext $ %{} :CodeEntry (:doc |)
           :code $ quote
