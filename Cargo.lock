@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "calcit_json"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "cirru_edn",
  "cirru_parser",
@@ -14,9 +14,9 @@ dependencies = [
 
 [[package]]
 name = "cirru_edn"
-version = "0.4.2"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5399b8563cb708471e8ded7433bc65e725fa17e38eb339de468445c1f3ee3c70"
+checksum = "8a35d38ee59f7409023f9dee361dc98760f33c9ad1f21283e536939d9561ed44"
 dependencies = [
  "cirru_parser",
  "hex",
