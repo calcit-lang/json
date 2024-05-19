@@ -1,6 +1,6 @@
 
 {} (:package |json)
-  :configs $ {} (:init-fn |json.test/main!) (:port 6001) (:reload-fn |json.test/reload!) (:version |0.0.6)
+  :configs $ {} (:init-fn |json.test/main!) (:port 6001) (:reload-fn |json.test/reload!) (:version |0.0.7)
     :modules $ []
   :entries $ {}
   :files $ {}
@@ -21,7 +21,7 @@
                   |b $ %{} :Expr (:at 1634804189975) (:by |u0)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1634804196083) (:by |u0) (:text |get-dylib-path)
-                      |j $ %{} :Leaf (:at 1634804199741) (:by |u0) (:text "|\"/dylibs/libcalcit_std")
+                      |j $ %{} :Leaf (:at 1716140913104) (:by |u0) (:text "|\"/dylibs/libcalcit_json")
                   |r $ %{} :Leaf (:at 1675447009963) (:by |u0) (:text "|\"json_parse")
                   |v $ %{} :Leaf (:at 1675446838158) (:by |u0) (:text |content)
         |stringify $ %{} :CodeEntry (:doc |)
@@ -40,7 +40,7 @@
                   |b $ %{} :Expr (:at 1675446855928) (:by |u0)
                     :data $ {}
                       |T $ %{} :Leaf (:at 1675446855928) (:by |u0) (:text |get-dylib-path)
-                      |b $ %{} :Leaf (:at 1675446855928) (:by |u0) (:text "|\"/dylibs/libcalcit_std")
+                      |b $ %{} :Leaf (:at 1716140918821) (:by |u0) (:text "|\"/dylibs/libcalcit_json")
                   |h $ %{} :Leaf (:at 1675447015988) (:by |u0) (:text "|\"json_stringify")
                   |l $ %{} :Leaf (:at 1675446862442) (:by |u0) (:text |data)
                   |o $ %{} :Leaf (:at 1675446873524) (:by |u0) (:text |pretty?)
