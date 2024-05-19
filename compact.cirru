@@ -1,6 +1,6 @@
 
 {} (:package |json)
-  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.4)
+  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.6)
     :modules $ []
   :entries $ {}
   :files $ {}

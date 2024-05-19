@@ -5,7 +5,7 @@ use std::{collections::HashMap, sync::Arc};
 
 #[no_mangle]
 pub fn abi_version() -> String {
-  String::from("0.0.7")
+  String::from("0.0.8")
 }
 
 #[no_mangle]
@@ -123,6 +123,7 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
       }
       Ok(JsonValue::Object(obj))
     }
+    Edn::AnyRef(_r) => Err("any-ref is a reference of unknown".to_owned()),
   }
 }
 
