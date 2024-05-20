@@ -1,11 +1,11 @@
-use cirru_edn::Edn;
+use cirru_edn::{Edn, EdnListView, EdnMapView, EdnRecordView, EdnTupleView};
 use cirru_parser::Cirru;
 use json::JsonValue;
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Arc};
 
 #[no_mangle]
 pub fn abi_version() -> String {
-  String::from("0.0.6")
+  String::from("0.0.9")
 }
 
 #[no_mangle]
@@ -50,7 +50,7 @@ pub fn json_parse(args: Vec<Edn>) -> Result<Edn, String> {
 fn json_to_edn(json: JsonValue) -> Edn {
   match json {
     JsonValue::Null => Edn::Nil,
-    JsonValue::Short(s) => Edn::str(s),
+    JsonValue::Short(s) => Edn::Str(Arc::from(s.to_string())),
     JsonValue::String(s) => Edn::str(s),
     JsonValue::Number(n) => Edn::Number(n.into()),
     JsonValue::Boolean(b) => Edn::Bool(b),
@@ -59,14 +59,14 @@ fn json_to_edn(json: JsonValue) -> Edn {
       for item in arr {
         vec.push(json_to_edn(item));
       }
-      Edn::List(vec)
+      Edn::List(EdnListView(vec))
     }
     JsonValue::Object(obj) => {
       let mut map = HashMap::new();
       for (k, v) in obj.iter() {
         map.insert(k.into(), json_to_edn(v.clone()));
       }
-      Edn::Map(map)
+      Edn::Map(EdnMapView::from(map))
     }
   }
 }
@@ -87,11 +87,11 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
     }
     Edn::Map(map) => {
       let mut obj = json::object::Object::new();
-      for (k, v) in map {
+      for (k, v) in &map.0 {
         if let Edn::Str(k) = k {
           obj.insert(k, edn_to_json(v)?);
         } else if let Edn::Tag(k) = k {
-          obj.insert(&k.to_str(), edn_to_json(v)?);
+          obj.insert(&k.arc_str(), edn_to_json(v)?);
         } else {
           return Err(format!("json-parse expected string, got {:?}", k));
         }
@@ -102,12 +102,12 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
     Edn::Tag(s) => Ok(JsonValue::String(s.to_string())),
     Edn::Set(xs) => {
       let mut arr = Vec::new();
-      for x in xs {
+      for x in &xs.0 {
         arr.push(edn_to_json(x)?);
       }
       Ok(JsonValue::Array(arr))
     }
-    Edn::Tuple(tag, extra) => {
+    Edn::Tuple(EdnTupleView { tag, extra }) => {
       let mut arr = vec![edn_to_json(&tag.to_owned())?];
       for item in extra {
         arr.push(edn_to_json(&item.to_owned())?);
@@ -116,13 +116,14 @@ fn edn_to_json(edn: &Edn) -> Result<JsonValue, String> {
     }
     Edn::Quote(x) => cirru_to_json(x),
     Edn::Buffer(buf) => Ok(JsonValue::String(format!("0x{}", hex::encode(buf)))),
-    Edn::Record(_r, entries) => {
+    Edn::Record(EdnRecordView { tag: _r, pairs: entries }) => {
       let mut obj = json::object::Object::new();
       for (k, v) in entries {
-        obj.insert(&k.to_str(), edn_to_json(v)?);
+        obj.insert(&k.arc_str(), edn_to_json(v)?);
       }
       Ok(JsonValue::Object(obj))
     }
+    Edn::AnyRef(_r) => Err("any-ref is a reference of unknown".to_owned()),
   }
 }
 

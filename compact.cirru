@@ -1,6 +1,6 @@
 
 {} (:package |json)
-  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.4)
+  :configs $ {} (:init-fn |json.test/main!) (:reload-fn |json.test/reload!) (:version |0.0.7)
     :modules $ []
   :entries $ {}
   :files $ {}
@@ -9,11 +9,11 @@
         |parse $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn parse (content)
-              &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"json_parse" content
+              &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_json") "\"json_parse" content
         |stringify $ %{} :CodeEntry (:doc |)
           :code $ quote
             defn stringify (data ? pretty?)
-              &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_std") "\"json_stringify" data pretty?
+              &call-dylib-edn (get-dylib-path "\"/dylibs/libcalcit_json") "\"json_stringify" data pretty?
       :ns $ %{} :CodeEntry (:doc |)
         :code $ quote
           ns json.core $ :require
